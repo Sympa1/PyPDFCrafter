@@ -182,4 +182,6 @@ build/
 *.AppDir/
 appimagetool-*.AppImage
 main.spec
+*.exe
+*.dll
 
