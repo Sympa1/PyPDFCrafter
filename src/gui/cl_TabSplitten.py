@@ -21,27 +21,26 @@ class TabSplitten(ctk.CTkFrame):
         self.output_part2 = None  # Pfad für den zweiten Teil der gesplitteten PDF
         self.pdf_utility = PdfUtility()  # Utility-Objekt für PDF-Operationen
 
-        # Fensterdimensionen aus der Konfiguration laden (für dynamische GUI-Größe)
-        window_width = getattr(master.master, "window_width", 800)  # Fallback auf 800
-        window_height = getattr(master.master, "window_height", 600)  # Fallback auf 600
+        # Spalte 0 dehnt sich mit der Fensterbreite aus
+        self.grid_columnconfigure(0, weight=1)
 
         # === GUI-ELEMENTE ERSTELLEN ===
 
-        # Button zum Auswählen der zu splittenden PDF-Datei
+        # Button zum Auswählen der zu splittenden PDF-Datei – zentriert
         self.select_file_button = ctk.CTkButton(self, text="PDF zum Splitten auswählen", command=self.select_input_pdf)
-        self.select_file_button.pack(anchor="w", padx=10, pady=(10, 0))
+        self.select_file_button.grid(row=0, column=0, padx=20, pady=(20, 0))
 
         # Label zur Anzeige der aktuell ausgewählten PDF-Datei
         self.file_label = ctk.CTkLabel(self, text="Keine Datei ausgewählt")
-        self.file_label.pack(anchor="w", padx=10, pady=(5, 0))
+        self.file_label.grid(row=1, column=0, padx=20, pady=(5, 0))
 
         # Label zur Anzeige der Seitenanzahl der ausgewählten PDF
         self.page_info_label = ctk.CTkLabel(self, text="")
-        self.page_info_label.pack(anchor="w", padx=10, pady=(5, 0))
+        self.page_info_label.grid(row=2, column=0, padx=20, pady=(5, 0))
 
-        # Frame für die Spinbox (Seitenzahl zum Splitten)
+        # Frame für die Spinbox (Seitenzahl zum Splitten) – zentriert
         self.spinbox_frame = ctk.CTkFrame(self)
-        self.spinbox_frame.pack(anchor="w", padx=10, pady=(10, 0))
+        self.spinbox_frame.grid(row=3, column=0, padx=20, pady=(10, 0))
 
         # Label für die Spinbox
         self.spinbox_label = ctk.CTkLabel(self.spinbox_frame, text="Splitten nach Seite:")
@@ -60,27 +59,28 @@ class TabSplitten(ctk.CTkFrame):
         self.plus_button = ctk.CTkButton(self.spinbox_frame, text="+", width=30, command=self.increase_value)
         self.plus_button.pack(side="left", padx=2, pady=10)
 
-        # Frame für die Anzeige und Auswahl der Output-Pfade
+        # Frame für die Anzeige und Auswahl der Output-Pfade – dehnt sich horizontal aus
         self.output_frame = ctk.CTkFrame(self)
-        self.output_frame.pack(anchor="w", padx=10, pady=(10, 0), fill="x")
+        self.output_frame.grid(row=4, column=0, padx=20, pady=(10, 0), sticky="ew")
+        self.output_frame.grid_columnconfigure(0, weight=1)
 
         # Label und Button für Output Teil 1
         self.output1_label = ctk.CTkLabel(self.output_frame, text="Output Teil 1: Standardpfad wird verwendet")
-        self.output1_label.pack(anchor="w", padx=10, pady=(10, 5))
+        self.output1_label.grid(row=0, column=0, padx=10, pady=(10, 5))
 
         self.select_output1_button = ctk.CTkButton(self.output_frame, text="Pfad für Teil 1 ändern", command=self.select_output1_pdf)
-        self.select_output1_button.pack(anchor="w", padx=10, pady=(0, 5))
+        self.select_output1_button.grid(row=1, column=0, padx=10, pady=(0, 5))
 
         # Label und Button für Output Teil 2
         self.output2_label = ctk.CTkLabel(self.output_frame, text="Output Teil 2: Standardpfad wird verwendet")
-        self.output2_label.pack(anchor="w", padx=10, pady=(5, 5))
+        self.output2_label.grid(row=2, column=0, padx=10, pady=(5, 5))
 
         self.select_output2_button = ctk.CTkButton(self.output_frame, text="Pfad für Teil 2 ändern", command=self.select_output2_pdf)
-        self.select_output2_button.pack(anchor="w", padx=10, pady=(0, 10))
+        self.select_output2_button.grid(row=3, column=0, padx=10, pady=(0, 10))
 
-        # Button zum Starten des Split-Prozesses
+        # Button zum Starten des Split-Prozesses – rechts unten platziert
         self.split_button = ctk.CTkButton(self, text="PDF splitten", command=self.split_pdf)
-        self.split_button.pack(anchor="e", padx=10, pady=(15, 10))
+        self.split_button.grid(row=5, column=0, padx=20, pady=(15, 20), sticky="e")
 
         # Split-Button initial deaktivieren, wird erst nach Dateiauswahl aktiviert
         self.split_button.configure(state="disabled")

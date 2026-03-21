@@ -175,3 +175,11 @@ cython_debug/
 
 # MyStuff
 
+# AppImage Build-Artefakte
+dist/
+build/
+*.AppImage
+*.AppDir/
+appimagetool-*.AppImage
+main.spec
+

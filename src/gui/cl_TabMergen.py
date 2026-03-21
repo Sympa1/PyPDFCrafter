@@ -21,45 +21,43 @@ class TabMergen(ctk.CTkFrame):
         self.output_path = None  # Pfad für die Ausgabedatei
         self.pdf_utility = PdfUtility()  # Utility-Objekt für PDF-Operationen
 
-        # Fensterdimensionen aus der Konfiguration laden
-        # Verwendet getattr() mit Fallback-Werten falls die Attribute nicht existieren
-        window_width = getattr(master.master, "window_width", 800)  # Fallback auf 800
-        window_height = getattr(master.master, "window_height", 600)  # Fallback auf 600
+        # Spalte 0 dehnt sich mit der Fensterbreite aus
+        self.grid_columnconfigure(0, weight=1)
+        # Zeile 2 (Textbox) dehnt sich mit der Fensterhöhe aus
+        self.grid_rowconfigure(2, weight=1)
 
         # === GUI-ELEMENTE ERSTELLEN ===
 
-        # Button zum Hinzufügen von PDF-Dateien
+        # Button zum Hinzufügen von PDF-Dateien – zentriert in der Zeile
         self.add_button = ctk.CTkButton(self, text="PDF hinzufügen", command=self.add_file)
-        self.add_button.pack(anchor="w", padx=10, pady=(10, 0))
+        self.add_button.grid(row=0, column=0, padx=20, pady=(20, 0))
 
         # Label zur Anzeige der Anzahl ausgewählter PDF-Dateien
         self.file_label = ctk.CTkLabel(self, text="Keine Dateien ausgewählt")
-        self.file_label.pack(anchor="w", padx=10, pady=(5, 0))
+        self.file_label.grid(row=1, column=0, padx=20, pady=(5, 0))
 
-        # Textbox zur Anzeige der hinzugefügten PDF-Dateipfade
-        # Größe wird dynamisch anhand der Fenstergröße berechnet
-        textbox_width = max(window_width - 60, 300)  # Mindestbreite 300px
-        textbox_height = max(int(window_height / 2), 100)  # Mindesthöhe 100px
-        self.listbox = ctk.CTkTextbox(self, height=textbox_height, width=textbox_width)
-        self.listbox.pack(anchor="w", padx=10, pady=(10, 0), fill="x")  # fill="x" für responsives Verhalten
+        # Textbox dehnt sich in alle Richtungen mit dem Fenster aus (sticky="nsew")
+        self.listbox = ctk.CTkTextbox(self)
+        self.listbox.grid(row=2, column=0, padx=20, pady=(10, 0), sticky="nsew")
         self.listbox.configure(state="disabled")  # Readonly-Modus
 
-        # Frame-Container für Output-Konfiguration
+        # Frame-Container für Output-Konfiguration – dehnt sich horizontal aus
         self.output_frame = ctk.CTkFrame(self)
-        self.output_frame.pack(anchor="w", padx=10, pady=(10, 0), fill="x")
+        self.output_frame.grid(row=3, column=0, padx=20, pady=(10, 0), sticky="ew")
+        self.output_frame.grid_columnconfigure(0, weight=1)
 
         # Label zur Anzeige des aktuellen Ausgabepfads
         self.output_label = ctk.CTkLabel(self.output_frame, text="Output: Standardpfad wird verwendet")
-        self.output_label.pack(anchor="w", padx=10, pady=(10, 5))
+        self.output_label.grid(row=0, column=0, padx=10, pady=(10, 5))
 
-        # Button zur Änderung des Ausgabepfads
+        # Button zur Änderung des Ausgabepfads – zentriert im Frame
         self.select_output_button = ctk.CTkButton(self.output_frame, text="Ausgabepfad ändern",
                                                   command=self.select_output_path)
-        self.select_output_button.pack(anchor="w", padx=10, pady=(0, 10))
+        self.select_output_button.grid(row=1, column=0, padx=10, pady=(0, 10))
 
-        # Hauptaktions-Button zum Starten des Merge-Prozesses
+        # Hauptaktions-Button rechts unten platziert
         self.merge_button = ctk.CTkButton(self, text="PDFs zusammenführen", command=self.merge_pdfs)
-        self.merge_button.pack(anchor="e", padx=10, pady=(15, 10))
+        self.merge_button.grid(row=4, column=0, padx=20, pady=(15, 20), sticky="e")
 
         # Button initial deaktivieren (wird erst bei Dateiauswahl aktiviert)
         self.merge_button.configure(state="disabled")
