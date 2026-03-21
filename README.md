@@ -116,6 +116,7 @@ pyinstaller --onedir --windowed \
   --name "PDFLab" \
   --icon=data/img/icon.ico \
   --hidden-import=customtkinter \
+  --hidden-import=PIL._tkinter_finder \
   --add-data "data/img:data/img" \
   src/main.py
 ```

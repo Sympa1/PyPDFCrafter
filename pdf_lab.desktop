@@ -5,4 +5,4 @@ Exec=/home/sympa/dev/pdf_lab/starter.sh
 Icon=/home/sympa/dev/pdf_lab/data/img/icon.png
 Type=Application
 Terminal=false
-Categories=Eigenentwicklung;
+Categories=Office;
